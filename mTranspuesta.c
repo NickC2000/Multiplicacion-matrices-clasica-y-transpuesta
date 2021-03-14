@@ -1,5 +1,9 @@
 /*
  *		Archivo: mTranspuesta.c
+ *      Universidad Sergio Arboleda
+ *      Escuela de ingenieria y ciencias exactas
+ *      Programas: Ingenieria de sistemas y telecomunicaciones
+ *                 Ingenieria electrónica
  *		Autor: Nicolas Cifuentes Barriga <nicolas.cifuentes01@correo.usa.edu.co>
  *			   Santiago Gutierrez Orjuela <santiago.gutierrez02@correo.usa.edu.co>
  *			   Daniel Siachoque Peralta <daniel.siachoque01@correo.usa.edu.co>
