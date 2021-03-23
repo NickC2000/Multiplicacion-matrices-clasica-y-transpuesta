@@ -38,7 +38,18 @@ void sample_stop(){
 	gettimeofday(&end,NULL); //Toma el tiempo de final de ejecución
 }
 void sample_end(){ //Se presenta el calculo en microsegundos
-	printf("Tiempo de ejecución: %ld microseg\n", ((end.tv_sec * 1000000 + end.tv_usec) - (start.tv_sec * 1000000 + start.tv_usec)));
+	printf("%ld\n", ((end.tv_sec * 1000000 + end.tv_usec) - (start.tv_sec * 1000000 + start.tv_usec)));
+}
+
+void initMatrizDynamic(int N,double **A,double **B,double **C){
+    int i,j; //Variables de iterazión
+    for (i = 0; i < N; i++){
+        for (j = 0; j < N; j++){
+            A[j+i*N] = 3.1*(j-i); //Genera dato en la matriz A
+            B[j+i*N] = 4.1*(j+i); //Genera dato en la matriz B
+            C[j+i*N] = 5.1;       //Genera dato en la matriz C los cuales seran alterados en la multiplicación
+        }
+    }
 }
 
 void initMatriz(int N,double *A,double *B,double *C){
@@ -63,10 +74,12 @@ void initTranspose(int N,double *B,double *T){
 
 void impresion(int N, double *matriz){
     int i,j; //Variables de iterazión
-    for (i = 0;i<N;i++){
-        for (j = 0;j<N;j++){
-            printf("%f \t",matriz[j+i*N]); //Imprime el valor en la casilla
+    if(N <= 4){
+        for (i = 0;i<N;i++){
+            for (j = 0;j<N;j++){
+                printf("%f \t",matriz[j+i*N]); //Imprime el valor en la casilla
+            }
+            printf("\n");
         }
-        printf("\n");
     }
 }

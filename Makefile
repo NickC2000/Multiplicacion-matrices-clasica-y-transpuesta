@@ -28,13 +28,13 @@ FLAGS = -ansi -pedantic -Wall -std=c99
 #Variable de entorno para banderas opcionales
 CFLAGS = -l
 #variable de entorno para referirse a las palabras mClasica y mTranspuesta
-PROGS = mClasica mTranspuesta
+PROGS = MM1c MM1t
 
 #Función tomada en cuenta para toda la ejecución
 all: $(PROGS)
 
 #Función que realiza los comandos que contenga
-mClasica:
+MM1c:
 #Comando para compilar  modelo.c usando las variables de entorno correspondientes
 	$(GCC) $(FLAGS) modulo.c -c
 #Comando para compilar  principal.c usando las variables de entorno correspondientes
@@ -42,7 +42,7 @@ mClasica:
 #Comando para fusionar con el ejecutable los objetos resultantes de las compilaciones previas
 	$(GCC) $(FLAGS) -o $@ $@.o modulo.o
 
-mTranspuesta:
+MM1t:
 #Comando para compilar  modelo.c usando las variables de entorno correspondientes
 	$(GCC) $(FLAGS) modulo.c -c
 #Comando para compilar  principal.c usando las variables de entorno correspondientes
