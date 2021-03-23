@@ -4,7 +4,7 @@
 #include <omp.h>
 #include <time.h>
 
-static double MEM_CHUNK[SIZE];
+//static double MEM_CHUNK[SIZE];
 int main(int argc, char **argv) {
     // Tamaño de la matriz
     int N = (int) atof(argv[1]); argc--; argv++;
@@ -14,17 +14,17 @@ int main(int argc, char **argv) {
     double **a = NULL, **b = NULL, **c = NULL;
     
     // Se reserva de foorma dinamica el espacio de memoria para cada una de las matrices de tamaño NxN
-    if ((a = (double **)malloc(N * sizeof(double *)) == NULL ||
-    (b = (double **)malloc(N * sizeof(double *))) == NULL ||
-    (c = (double **)malloc(N * sizeof(double *))) == NULL) {
+    if ((a = (double **)malloc(N * sizeof(double *))) == NULL ||
+        (b = (double **)malloc(N * sizeof(double *))) == NULL ||
+        (c = (double **)malloc(N * sizeof(double *))) == NULL) {
         printf("Insuficiente espacio de memoria\n");
         return -1;
     }
 
     for(i = 0 ; i < N ; i++){
-        if ((a[i] = (double **)malloc(N * sizeof(double *))) == NULL ||
-            (b[i] = (double **)malloc(N * sizeof(double *))) == NULL ||
-            (c[i] = (double **)malloc(N * sizeof(double *))) == NULL) {
+        if ((a[i] = (double *)malloc(N * sizeof(double *))) == NULL ||
+            (b[i] = (double *)malloc(N * sizeof(double *))) == NULL ||
+            (c[i] = (double *)malloc(N * sizeof(double *))) == NULL) {
             printf("Insuficiente espacio de memoria\n");
             return -1;
         }
