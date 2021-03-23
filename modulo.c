@@ -45,11 +45,23 @@ void initMatrizDynamic(int N,double **A,double **B,double **C){
     int i,j; //Variables de iterazión
     for (i = 0; i < N; i++){
         for (j = 0; j < N; j++){
-            A[j+i*N] = 3.1*(j-i); //Genera dato en la matriz A
-            B[j+i*N] = 4.1*(j+i); //Genera dato en la matriz B
-            C[j+i*N] = 5.1;       //Genera dato en la matriz C los cuales seran alterados en la multiplicación
+            *(*(A+j)+i)) = 3.1*(j-i); //Genera dato en la matriz A
+            *(*(B+j)+i)) = 4.1*(j+i); //Genera dato en la matriz B
+            *(*(C+j)+i)) = 5.1;       //Genera dato en la matriz C los cuales seran alterados en la multiplicación
         }
     }
+}
+
+void matrizDynamicFree(int N,double **A,double **B,double **C){
+
+    int i; //Variable de iterazión
+#pragma omp parallel for{
+    for (i = 0; i < N; i++){
+        free(A[i]);
+        free(B[i]);
+        free(C[i]);
+    }
+}
 }
 
 void initMatriz(int N,double *A,double *B,double *C){

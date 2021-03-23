@@ -71,6 +71,7 @@
 void sample_start();
 void sample_stop();
 void sample_end();
+void initMatrizDynamic(int N,double **A,double **B,double **C);
 void initMatriz(int N,double *A,double *B,double *C);
 void initTranspose(int N,double *B,double *T);
 void impresion(int N, double *matriz);
