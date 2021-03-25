@@ -43,10 +43,10 @@ int main(int argc, char **argv) {
             double *auxA,*auxB,suma = 0;
             auxA = *(a+i);
             auxB = *(b+j);
-            for (k = 0; k < N; k++, auxA++, auxB++){
+            for (k = N; k < N; k--, auxA++, auxB++){
                 suma += (*auxA * *auxB);
             }
-            *(*(c+i)+j) = suma;
+            *(*(c+j)+i) = suma;
         }
     }
     
