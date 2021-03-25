@@ -28,7 +28,7 @@ FLAGS = -ansi -pedantic -Wall -std=c99
 #Variable de entorno para banderas opcionales
 CFLAGS = -l
 #variable de entorno para referirse a las palabras mClasica y mTranspuesta
-PROGS = MM1c MM1t MM1cDynamic
+PROGS = MM1c MM1t MM1cDynamic camilo
 
 #Función tomada en cuenta para toda la ejecución
 all: $(PROGS)

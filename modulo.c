@@ -97,3 +97,27 @@ void impresion(int N, double *matriz){
         }
     }
 }
+
+void multiplyMatrix(int MATRIX_SIZE, double **matrixA, double **matrixB, double **result){
+  int i, j, k;
+#pragma omp for // Open MP pragma for declaration for parallelism
+  for (i = 0; i < MATRIX_SIZE; i++)
+  {
+    for (j = 0; j < MATRIX_SIZE; j++)
+    {
+      double *auxMatrixA, *auxMatrixB; // Auxiliary Pointers to matrixes (Array) positions
+      double sum = 0.0;
+
+      // auxMatrixA = *(matrixA + (i * MATRIX_SIZE)); // Assignment of the position of the matrixA in the main array for looping in it
+      auxMatrixA = *(matrixA + i); // Assignment of the position of the matrixA in the main array for looping in it
+      auxMatrixB = *(matrixB + j); // Assignment of the position of the matrixB in the main array for looping in it
+
+      for (k = 0; k < MATRIX_SIZE; k++, auxMatrixA++, auxMatrixB++) // Increasing of the position of the pointers to matrixes
+      // for (k = MATRIX_SIZE; k > 0; k--, auxMatrixA++, auxMatrixB++) // Increasing of the position of the pointers to matrixes
+      {
+        sum += (*auxMatrixA * *auxMatrixB);
+      }
+      *(*(result + j) + i) = sum; // Assignment of sum to the result section of the main array
+    }
+  }
+}

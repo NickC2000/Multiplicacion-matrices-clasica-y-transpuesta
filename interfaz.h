@@ -76,4 +76,5 @@ void matrizDynamicFree(int N,double **A,double **B,double **C);
 void initMatriz(int N,double *A,double *B,double *C);
 void initTranspose(int N,double *B,double *T);
 void impresion(int N, double *matriz);
+void multiplyMatrix(int MATRIX_SIZE, double **matrixA, double **matrixB, double **result);
 #endif

@@ -8,7 +8,7 @@
 int main(int argc, char **argv) {
     // Tamaño de la matriz
     int N = (int) atof(argv[1]); argc--; argv++;
-    int i,j,k;
+    int i;
 
     int hilos = (int) atof(argv[1]); argc--; argv++;
     double **a = NULL, **b = NULL, **c = NULL;
@@ -37,21 +37,9 @@ int main(int argc, char **argv) {
 #pragma omp master
     initMatrizDynamic(N,a,b,c);  
     sample_start();
-#pragma omp parallel for 
-    for (i = 0;i<N;i++){
-        for (j = 0;j<N;j++){
-            double *auxA,*auxB,suma = 0;
-            auxA = *(a+i);
-            auxB = *(b+j);
-            for (k = N; k < N; k--, auxA++, auxB++){
-                suma += (*auxA * *auxB);
-            }
-            *(*(c+j)+i) = suma;
-        }
-    }
-    
-}
+    multiplyMatrix(N,a,b,c);
     sample_stop();
+}
     sample_end();
     matrizDynamicFree(N,a,b,c);
     /*
