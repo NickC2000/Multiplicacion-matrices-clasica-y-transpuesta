@@ -28,6 +28,7 @@
 #include <omp.h>
 #include <time.h>
 #include <sys/time.h>
+#include <pthread.h>
 
 struct timeval start, end; //Structura para la toma de tiempo
 
@@ -53,7 +54,6 @@ void initMatrizDynamic(int N,double **A,double **B,double **C){
 }
 
 void matrizDynamicFree(int N,double **A,double **B,double **C){
-
     int i; //Variable de iterazión
 #pragma omp parallel for
     for (i = 0; i < N; i++){
@@ -84,6 +84,20 @@ void initTranspose(int N,double *B,double *T){
             T[j+i*N] = B[i+j*N]; //Genera la transpuesta de la matriz B
         }
     }
+}
+
+void initDynamicMatrixTranspose(int MATRIX_SIZE, double **matrixA, double **matrixB, double **result, double **transposeMatrixB){
+  int i, j;
+  for (i = 0; i < MATRIX_SIZE; i++)
+  {
+    for (j = 0; j < MATRIX_SIZE; j++)
+    {
+      *(*(matrixA + j) + i) = 2.01 * (i + j);
+      *(*(matrixB + j) + i) = 3.01 * (i - j);
+      *(*(transposeMatrixB + j) + i) = 5.01;
+      *(*(result + j) + i) = 5.01;
+    }
+  }
 }
 
 void impresion(int N, double *matriz){
@@ -120,4 +134,101 @@ void multiplyMatrix(int MATRIX_SIZE, double **matrixA, double **matrixB, double 
       *(*(result + j) + i) = sum; // Assignment of sum to the result section of the main array
     }
   }
+}
+
+void transposeMatrix(int MATRIX_SIZE, double **matrix, double **transpose){
+  int i, j;
+#pragma omp for // Open MP pragma for declaration for parallelism
+  for (i = 0; i < MATRIX_SIZE; i++)
+  {
+    for (j = 0; j < MATRIX_SIZE; j++)
+    {
+      *(*(transpose + j) + i) = *(*(matrix + i) + j);
+      // transpose[(j * MATRIX_SIZE) + i] = matrix[j + i * MATRIX_SIZE]; // Assignment of matrix transpose to the transpose matrix
+    }
+  }
+}
+
+void freeReservedMemoryTranspose(int MATRIX_SIZE, double **matrixA, double **matrixB, double **result, double **transpose){
+
+  int i;
+
+#pragma omp parallel for
+  for (i = 0; i < MATRIX_SIZE; i++)
+  {
+    free(matrixA[i]);
+    free(matrixB[i]);
+    free(result[i]);
+    free(transpose[i]);
+  }
+  free(matrixA);
+  free(transpose);
+  free(matrixB);
+  free(result);
+}
+
+int ** allocate_matrix( int size ) {
+
+    int * vals = (int *) malloc( size * size * sizeof(int) );
+    int ** ptrs = (int **) malloc( size * sizeof(int*) );
+
+    int i;
+    for (i = 0; i < size; ++i) {
+        ptrs[ i ] = &vals[ i * size ];
+    }
+
+    return ptrs;
+}
+
+void llenadoA( int **matrix, int size ){
+    int i,j;
+   	time_t t;
+	srand((unsigned) time (&t));
+    for (i = 0 ;  i < size ; i++){
+        for (j = 0 ; j < size ; j++){
+            matrix[i][j] = rand()%11;
+        }
+    }
+}
+void llenadoB( int **matrix, int size ){
+    int i,j;
+    for (i = 0 ;  i < size ; i++){
+	    for (j = 0 ; j < size ; j++){
+            matrix[i][j] = rand()%11;
+        }
+    }
+}
+void *multiplicacionPthread( void *arg ) {
+    int i, j, k, tid, portion_size, row_start, row_end;
+    int sum;
+  
+    tid = *(int *)(arg);
+    portion_size = size / num_threads;
+    row_start = tid * portion_size;
+    row_end = (tid+1) * portion_size;
+
+    for (i = row_start; i < row_end; ++i) { 
+        for (j = 0; j < size; ++j) { 
+            sum = 0;
+            for (k = 0; k < size; ++k) { 
+	            sum += matrix1[ i ][ k ] * matrix2[ k ][ j ];
+            }
+            matrix3[ i ][ j ] = sum;
+        }
+    }
+	pthread_exit(NULL);
+}
+void creacion_hilos(){
+	int i;
+	pthread_t * threads;
+	threads = (pthread_t *) malloc( num_threads * sizeof(pthread_t) );
+	for ( i = 0; i < num_threads; ++i ) {
+        int *tid;
+        tid = (int *) malloc( sizeof(int) );
+        *tid = i;
+        pthread_create( &threads[i], NULL, multiplicacionPthread, (void *)tid );
+    }
+	for ( i = 0; i < num_threads; ++i ) {
+        pthread_join( threads[i], NULL );
+    }
 }

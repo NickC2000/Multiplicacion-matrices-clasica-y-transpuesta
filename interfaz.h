@@ -68,6 +68,9 @@
 
 /*Prototypes for the functions*/
 #define SIZE (1024*1024*60*3)
+int size, num_threads;
+int **matrix1, **matrix2, **matrix3;
+
 void sample_start();
 void sample_stop();
 void sample_end();
@@ -77,4 +80,13 @@ void initMatriz(int N,double *A,double *B,double *C);
 void initTranspose(int N,double *B,double *T);
 void impresion(int N, double *matriz);
 void multiplyMatrix(int MATRIX_SIZE, double **matrixA, double **matrixB, double **result);
+void transposeMatrix(int MATRIX_SIZE, double **matrix, double **transpose);
+void initDynamicMatrixTranspose(int MATRIX_SIZE, double **matrixA, double **matrixB, double **result, double **transposeMatrixB);
+void freeReservedMemoryTranspose(int MATRIX_SIZE, double **matrixA, double **matrixB, double **result, double **transpose);
+
+int ** allocate_matrix( int size );
+void llenadoA( int **matrix, int size );
+void llenadoB( int **matrix, int size );
+void * multiplicacionPthread( void *arg );
+void creacion_hilos();
 #endif
